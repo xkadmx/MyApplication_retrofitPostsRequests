@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import org.w3c.dom.Comment;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         jsonPlaceHolderAPI = retrofit.create(JsonPlaceHolderAPI.class);
 
-        getPosts();
+        //getPosts();
+        getComments();
 
     }
     public void getPosts(){
@@ -63,8 +66,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
                 textViewResult.setText(t.getMessage());
+            }
+
+        });
+
+    }
+    public void getComments(){
+        Call<List<Comment>> call = jsonPlaceHolderAPI.getComments();
+
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                if(!response.isSuccessful()) {
+                    textViewResult.setText("Code: " + response.code());
+                    return;
+                }
+                List<Comment> comments = response.body();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                textViewResult.setText(t.getMessage());
 
             }
         });
+
     }
 }
