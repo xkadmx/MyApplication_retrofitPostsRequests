@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     textViewResult.setText("Code: " + response.code());
                     return;
                 }
-                List<Comment> comments = response.body();
+
 
             }
 
